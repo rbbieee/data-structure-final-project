@@ -2,67 +2,74 @@
 #define MLL_H_INCLUDED
 
 #include <iostream>
+#include <string>
 using namespace std;
+
 typedef string infotype;
-typedef struct Pesawat *adrPesawat;
-typedef struct relasi *adrRelasi;
-typedef struct Penumpang *adrPenumpang;
+typedef struct Plane *adrPlane;
+typedef struct Relation *adrRelation;
+typedef struct Passenger *adrPassenger;
 
-struct Pesawat { // pake DLL
+struct Plane {
     infotype info;
-    adrPesawat next;
-    adrPesawat prev;
-    adrRelasi down;
+    adrPlane next;
+    adrPlane prev;
+    adrRelation down;
 };
 
-struct Penumpang {
-    adrPenumpang next;
+struct Passenger {
+    adrPassenger next;
     infotype info;
 };
 
-struct relasi {
-    adrPenumpang toPenumpang;
-    adrRelasi down;
+struct Relation {
+    adrPassenger toPassenger;
+    adrRelation down;
 };
 
-struct listPesawat {
-    adrPesawat first;
-    adrPesawat last;
+struct listPlane {
+    adrPlane first;
+    adrPlane last;
 };
 
-struct listPenumpang {
-    adrPenumpang first;
+struct listPassenger {
+    adrPassenger first;
 };
 
-void createListPesawat(listPesawat &citilink);
-void createListPenumpang(listPenumpang &lp);
-adrPesawat createELmPesawat(infotype x);
-adrPenumpang createElmPenumpang(infotype y);
-adrRelasi createElmRelasi();
-void insertFirstPesawat(listPesawat &citilink, adrPesawat p);
-void insertFirstPenumpang(listPenumpang &lp, adrPenumpang j);
-void showAllPesawat(listPesawat citilink);
-void showAllPenumpang(listPenumpang lp);
-adrPesawat findPesawat(listPesawat &citilink, infotype w);
 
-adrPenumpang findPenumpang(listPenumpang &lp, infotype f);
-void insertRelasi_pesawat_to_penumpang(listPesawat &citilink, listPenumpang &lp, infotype namePesawat, infotype namePenumpang);
+void createListPlane(listPlane &citilink);
+void createListPassenger(listPassenger &lp);
 
-void showAllRelasi(listPesawat citilink);
+adrPlane createElmPlane(infotype x);
+adrPassenger createElmPassenger(infotype y);
+adrRelation createElmRelation();
 
-void updateDataPesawat(listPesawat &citilink, infotype x, infotype update);
-void updateDataPenumpang(listPenumpang &lp, infotype namaPenumpang, infotype namaPenumpangBaru);
+void insertFirstPlane(listPlane &citilink, adrPlane p);
+void insertFirstPassenger(listPassenger &lp, adrPassenger j);
 
-int countPenumpang(adrPesawat p);
-void findPenumpangTerbanyak(listPesawat tilink);
-void findPenumpangDimana(listPesawat citilink, listPenumpang lp, infotype penumpang_yang_dicari);
+void showAllPlane(listPlane citilink);
+void showAllPassenger(listPassenger lp);
 
-adrRelasi findRelasi(adrPesawat p, infotype x);
+adrPlane findPlane(listPlane &citilink, infotype w);
+adrPassenger findPassenger(listPassenger &lp, infotype f);
 
-void deleteFirstRelasi(adrPesawat &p, adrRelasi &c);
-void deleteAfterRelasi(adrRelasi prec, adrRelasi &c);
-void deleteLastRelasi(adrPesawat &p, adrRelasi &c);
+void insertRelation_plane_to_passenger(listPlane &citilink, listPassenger &lp, infotype namePlane, infotype namePassenger);
 
-void deleteRelasi(adrPesawat p, infotype x, adrRelasi &r);
+void showAllRelation(listPlane citilink);
+
+void updateDataPlane(listPlane &citilink, infotype x, infotype update);
+void updateDataPassenger(listPassenger &lp, infotype oldName, infotype newName);
+
+int countPassenger(adrPlane p);
+void findPassengerMost(listPlane citilink);
+void findPassengerWhere(listPlane citilink, listPassenger lp, infotype passengerName);
+
+adrRelation findRelation(adrPlane p, infotype x);
+
+void deleteFirstRelation(adrPlane &p, adrRelation &c);
+void deleteAfterRelation(adrRelation prec, adrRelation &c);
+void deleteLastRelation(adrPlane &p, adrRelation &c);
+
+void deleteRelation(adrPlane p, infotype x, adrRelation &r);
 
 #endif // MLL_H_INCLUDED

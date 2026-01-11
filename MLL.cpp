@@ -1,38 +1,38 @@
 #include "MLL.h"
 
-void createListPesawat(listPesawat &citilink){
+void createListPlane(listPlane &citilink){
     citilink.first = nullptr;
+    citilink.last = nullptr;
 }
-void createListPenumpang(listPenumpang &lp){
+
+void createListPassenger(listPassenger &lp){
     lp.first = nullptr;
 }
 
-adrPesawat createELmPesawat(infotype x){
-    adrPesawat p = new Pesawat;
-
+adrPlane createElmPlane(infotype x){
+    adrPlane p = new Plane;
     p->info = x;
     p->next = nullptr;
     p->prev = nullptr;
     p->down = nullptr;
     return p;
 }
-adrPenumpang createElmPenumpang(infotype y){
-    adrPenumpang e = new Penumpang;
 
+adrPassenger createElmPassenger(infotype y){
+    adrPassenger e = new Passenger;
     e->info = y;
     e->next = nullptr;
     return e;
 }
 
-adrRelasi createElmRelasi(){
-    adrRelasi r = new relasi;
-
-    r->toPenumpang = nullptr;
+adrRelation createElmRelation(){
+    adrRelation r = new Relation;
+    r->toPassenger = nullptr;
     r->down = nullptr;
     return r;
 }
 
-void insertFirstPesawat(listPesawat &citilink, adrPesawat p){
+void insertFirstPlane(listPlane &citilink, adrPlane p){
     if (citilink.first == nullptr && citilink.last == nullptr){
         citilink.first = p;
         citilink.last = p;
@@ -43,7 +43,7 @@ void insertFirstPesawat(listPesawat &citilink, adrPesawat p){
     }
 }
 
-void insertFirstPenumpang(listPenumpang &lp, adrPenumpang j){
+void insertFirstPassenger(listPassenger &lp, adrPassenger j){
     if (lp.first == nullptr){
         lp.first = j;
     } else {
@@ -52,73 +52,64 @@ void insertFirstPenumpang(listPenumpang &lp, adrPenumpang j){
     }
 }
 
-void showAllPesawat(listPesawat citilink){
-    adrPesawat p = citilink.first;
+void showAllPlane(listPlane citilink){
+    adrPlane p = citilink.first;
     while (p != nullptr){
         cout << p->info << " ";
         p = p->next;
     }
 }
-void showAllPenumpang(listPenumpang lp){
-    adrPenumpang p = lp.first;
+
+void showAllPassenger(listPassenger lp){
+    adrPassenger p = lp.first;
     while (p != nullptr){
         cout << p->info << " ";
         p = p->next;
     }
 }
-adrPesawat findPesawat(listPesawat &citilink, infotype w){
-    adrPesawat p = citilink.first;
+
+adrPlane findPlane(listPlane &citilink, infotype w){
+    adrPlane p = citilink.first;
     while (p != nullptr && p->info != w){
         p = p->next;
     }
-
-    if (p == nullptr){
-        return nullptr;
-    } else {
-        return p;
-    }
+    return p;
 }
 
-adrPenumpang findPenumpang(listPenumpang &lp, infotype f){
-    adrPenumpang p = lp.first;
+adrPassenger findPassenger(listPassenger &lp, infotype f){
+    adrPassenger p = lp.first;
     while (p != nullptr && p->info != f){
         p = p->next;
     }
-
-    if (p == nullptr){
-        return nullptr;
-    } else {
-        return p;
-    }
+    return p;
 }
 
-void insertRelasi_pesawat_to_penumpang(listPesawat &citilink, listPenumpang &lp, infotype namePesawat, infotype namePenumpang){
-    adrPesawat p = findPesawat(citilink, namePesawat);
-    adrPenumpang n = findPenumpang(lp, namePenumpang);
+void insertRelation_plane_to_passenger(listPlane &citilink, listPassenger &lp, infotype namePlane, infotype namePassenger){
+    adrPlane p = findPlane(citilink, namePlane);
+    adrPassenger n = findPassenger(lp, namePassenger);
 
     if (p != nullptr){
-        adrRelasi R = createElmRelasi();
-        R->toPenumpang = n;
+        adrRelation r = createElmRelation();
+        r->toPassenger = n;
 
         if (p->down == nullptr){
-            p->down = R;
+            p->down = r;
         } else {
-            R->down = p->down;
-            p->down = R;
+            r->down = p->down;
+            p->down = r;
         }
     } else {
-        cout << "tidak ditemukan";
+        cout << "not found";
     }
 }
 
-void showAllRelasi(listPesawat citilink){
-    adrPesawat p = citilink.first;
-
+void showAllRelation(listPlane citilink){
+    adrPlane p = citilink.first;
     while (p != nullptr){
-        cout << "pesawatnya: " << p->info << " ";
-        adrRelasi r = p->down;
+        cout << p->info << " ";
+        adrRelation r = p->down;
         while (r != nullptr){
-            cout << "penumpangnya: " << r->toPenumpang->info << " ";
+            cout << r->toPassenger->info << " ";
             r = r->down;
         }
         cout << endl;
@@ -126,28 +117,22 @@ void showAllRelasi(listPesawat citilink){
     }
 }
 
-void updateDataPesawat(listPesawat &citilink, infotype x, infotype update){
-    adrPesawat cari = findPesawat(citilink, x);
-
-    if (cari != nullptr){
-        cari->info = update;
-    } else {
-        cout << "tidak ketemu";
+void updateDataPlane(listPlane &citilink, infotype x, infotype update){
+    adrPlane f = findPlane(citilink, x);
+    if (f != nullptr){
+        f->info = update;
     }
 }
 
-void updateDataPenumpang(listPenumpang &lp, infotype namaPenumpang, infotype namaPenumpangBaru){
-    adrPenumpang cari = findPenumpang(lp, namaPenumpang);
-
-    if (cari != nullptr){
-        cari->info = namaPenumpangBaru;
-    } else {
-        cout << "tidak ketemu";
+void updateDataPassenger(listPassenger &lp, infotype oldName, infotype newName){
+    adrPassenger f = findPassenger(lp, oldName);
+    if (f != nullptr){
+        f->info = newName;
     }
 }
 
-int countPenumpang(adrPesawat p){
-    adrRelasi c = p->down;
+int countPassenger(adrPlane p){
+    adrRelation c = p->down;
     int i = 0;
     while (c != nullptr){
         i++;
@@ -156,66 +141,60 @@ int countPenumpang(adrPesawat p){
     return i;
 }
 
-void findPenumpangTerbanyak(listPesawat citilink){
-    adrPesawat p = citilink.first;
-    adrPesawat maksimum = citilink.first;
+void findPassengerMost(listPlane citilink){
+    adrPlane p = citilink.first;
+    adrPlane maxp = citilink.first;
 
     while (p != nullptr){
-        if (countPenumpang(maksimum) < countPenumpang(p)){
-            maksimum = p;
+        if (countPassenger(maxp) < countPassenger(p)){
+            maxp = p;
         }
         p = p->next;
     }
-    cout << maksimum->info;
+    cout << maxp->info;
 }
 
-void findPenumpangDimana(listPesawat citilink, listPenumpang lp, infotype penumpang_yang_dicari){
-    adrPesawat jalan = citilink.first;
-    adrPenumpang yang_dicari = findPenumpang(lp, penumpang_yang_dicari);
+void findPassengerWhere(listPlane citilink, listPassenger lp, infotype passengerName){
+    adrPlane p = citilink.first;
+    adrPassenger target = findPassenger(lp, passengerName);
 
-    while (jalan != nullptr){
-        adrRelasi jalanKebawah = jalan->down;
-        while (jalanKebawah != nullptr){
-            if (jalanKebawah->toPenumpang == yang_dicari){
-                cout << "berada di pesawat: " << jalan->info;
+    while (p != nullptr){
+        adrRelation r = p->down;
+        while (r != nullptr){
+            if (r->toPassenger == target){
+                cout << p->info;
             }
-            jalanKebawah = jalanKebawah->down;
+            r = r->down;
         }
-        jalan = jalan->next;
+        p = p->next;
     }
 }
 
-void deleteFirstRelasi(adrPesawat &p, adrRelasi &c){
+void deleteFirstRelation(adrPlane &p, adrRelation &c){
     if (p->down == nullptr){
-        cout << "pesawat Kosong";
-    }else if(p->down->down == nullptr){
-        c = p->down;
-        p->down = nullptr;
-    }else{
+        return;
+    } else {
         c = p->down;
         p->down = c->down;
         c->down = nullptr;
     }
 }
-void deleteAfterRelasi(adrRelasi prec, adrRelasi &c){
-    if(prec == nullptr){
-        cout << "Prec Kosong";
-    }else{
-        c = prec->down;
-        prec->down = c->down;
-        c->down = nullptr;
-    }
+
+void deleteAfterRelation(adrRelation prec, adrRelation &c){
+    c = prec->down;
+    prec->down = c->down;
+    c->down = nullptr;
 }
-void deleteLastRelasi(adrPesawat &p, adrRelasi &c){
-    adrRelasi q;
-    if(p->down == nullptr){
-        cout << "List Kosong";
-    }else if(p->down->down == nullptr){
+
+void deleteLastRelation(adrPlane &p, adrRelation &c){
+    adrRelation q;
+    if (p->down->down == nullptr){
         c = p->down;
         p->down = nullptr;
-    }else{
+    } else {
+        q = nullptr;
         c = p->down;
-        while(c->down != nullptr){
+        while (c->down != nullptr){
             q = c;
             c = c->down;
         }
@@ -223,36 +202,27 @@ void deleteLastRelasi(adrPesawat &p, adrRelasi &c){
     }
 }
 
-adrRelasi findRelasi(adrPesawat p, infotype x){
-    adrRelasi s = p->down;
-
-    while (s != nullptr && s->toPenumpang->info !=x){
+adrRelation findRelation(adrPlane p, infotype x){
+    adrRelation s = p->down;
+    while (s != nullptr && s->toPassenger->info != x){
         s = s->down;
     }
-    if (s != nullptr){
-        return s;
-    } else {
-        return nullptr;
-    }
+    return s;
 }
 
-void deleteRelasi(adrPesawat p, infotype x, adrRelasi &r){
-    adrRelasi c = findRelasi(p, x);
-
-    if (c == nullptr) {
-        cout << "Tidak ditemukan" << endl;
+void deleteRelation(adrPlane p, infotype x, adrRelation &r){
+    adrRelation c = findRelation(p, x);
+    if (c == nullptr){
         return;
     }
 
-    if (c == p->down) {
-        deleteFirstRelasi(p, r);
-    } else if (p->down == nullptr) {
-        deleteLastRelasi(p, r);
+    if (c == p->down){
+        deleteFirstRelation(p, r);
     } else {
-        adrRelasi q = p->down;
-        while (q->down != c) {
+        adrRelation q = p->down;
+        while (q->down != c){
             q = q->down;
         }
-        deleteAfterRelasi(q, r);
+        deleteAfterRelation(q, r);
     }
 }
